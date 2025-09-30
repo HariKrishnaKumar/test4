@@ -55,16 +55,16 @@ def upgrade() -> None:
     op.create_index(op.f('ix_merchant_detail_id'), 'merchant_detail', ['id'], unique=False)
 
     # Create merchant_tokens table (depends on merchants)
-    op.create_table('merchant_tokens',
-        sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('merchant_id', sa.Integer(), nullable=False),
-        sa.Column('token', sa.Text(), nullable=False),
-        sa.Column('token_type', sa.String(length=100), nullable=True),
-        sa.Column('created_at', sa.DateTime(), server_default=sa.func.now(), nullable=True),
-        sa.ForeignKeyConstraint(['merchant_id'], ['merchants.id'], ),
-        sa.PrimaryKeyConstraint('id')
-    )
-    op.create_index(op.f('ix_merchant_tokens_id'), 'merchant_tokens', ['id'], unique=False)
+    # op.create_table('merchant_tokens',
+    #     sa.Column('id', sa.Integer(), nullable=False),
+    #     sa.Column('merchant_id', sa.Integer(), nullable=False),
+    #     sa.Column('token', sa.Text(), nullable=False),
+    #     sa.Column('token_type', sa.String(length=100), nullable=True),
+    #     sa.Column('created_at', sa.DateTime(), server_default=sa.func.now(), nullable=True),
+    #     sa.ForeignKeyConstraint(['merchant_id'], ['merchants.id'], ),
+    #     sa.PrimaryKeyConstraint('id')
+    # )
+    # op.create_index(op.f('ix_merchant_tokens_id'), 'merchant_tokens', ['id'], unique=False)
 
     # Create users table
     op.create_table('users',
@@ -110,8 +110,8 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_users_id'), table_name='users')
     op.drop_table('users')
 
-    op.drop_index(op.f('ix_merchant_tokens_id'), table_name='merchant_tokens')
-    op.drop_table('merchant_tokens')
+    # op.drop_index(op.f('ix_merchant_tokens_id'), table_name='merchant_tokens')
+    # op.drop_table('merchant_tokens')
 
     op.drop_index(op.f('ix_merchant_detail_id'), table_name='merchant_detail')
     op.drop_table('merchant_detail')

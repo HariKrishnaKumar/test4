@@ -35,12 +35,12 @@ def upgrade() -> None:
     # Create user_services table
     op.create_table('user_services',
         sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-        sa.Column('user_id', sa.String(100), nullable=False),
+        sa.Column('user_id', sa.Integer(), nullable=False),  # <-- THIS IS THE CORRECTED LINE
         sa.Column('service_id', sa.Integer(), nullable=False),
-        sa.Column('selected_at', sa.DateTime(timezone=True), server_default=sa.func.now()),
+        sa.Column('selected_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+        sa.PrimaryKeyConstraint('id'),
         sa.ForeignKeyConstraint(['service_id'], ['services.id'], ),
-        sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-        sa.PrimaryKeyConstraint('id')
+        sa.ForeignKeyConstraint(['user_id'], ['users.id'], )
     )
 
     # Create indexes for better performance
